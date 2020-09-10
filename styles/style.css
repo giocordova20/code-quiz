@@ -1,0 +1,18 @@
+
+
+
+
+@media screen and (max-width: 768px) {
+    main {
+        margin: 0 auto;
+    }
+    main .row {
+        background: url(../img/background.jpg), radial-gradient(#e6e6e6, #212121) right top;
+    }
+    .row {
+        margin: 0 auto;
+    }
+    #time-left-mobile {
+        display: block;
+    }
+}
