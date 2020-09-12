@@ -1,13 +1,30 @@
+var cardTitle = document.getElementById("title")
+var cardquestion = document.getElementById("question")
+var buttonArea = document.getElementById("button-area")
+
 var timerButton = document.querySelector('#timer'); // Displays the time left on the button
 var timer = 10;     // Start Time
 var past = 0;       // Counter for the time that has elapsed
 var timerLeft = 0;  // Variable to track timer-past
 var interval;       
 
+console.log("cardTitle: ", cardTitle);
+console.log("cardquestion: ", cardquestion);
+console.log("buttonArea: ", buttonArea);
+
+
 ///////////////////////
 //   Answer buttons  //
 ///////////////////////
-var answer1 = document.getElementById("")
+
+// // Question buttons to be created for each question // //
+// <button id = "btn1" class="btn mx-1 my-1 btn-dark">Answer 1 - abcdefg</button>
+// <button id = "btn2" class="btn mx-1 my-1 btn-dark">Answer 2 - abcdefg</button>
+// <button id = "btn3" class="btn mx-1 my-1 btn-dark">Answer 3 - abcdefg</button>
+// <button id = "btn4" class="btn mx-1 my-1 btn-dark">Answer 4 - abcdefg</button>
+
+
+
 
 
 ////////////////////////////
@@ -30,6 +47,34 @@ var answer1 = document.getElementById("")
 // questions[i].title
 // questions[i.].answer
 // questions[i].choices[x]
+
+loadQuiz();
+
+// Set the starting card for the quiz
+function loadQuiz(){
+    cardTitle.textContent="Test your coding knowledge";
+    cardquestion.textContent="Think you have what it takes to be a web developer?";
+
+    var button1 = document.createElement("button");
+    button1.setAttribute("class", "btn btn-danger mx-1 my-1");
+    // button.setAttribute("type=button");
+    button1.innerHTML = "Start the quiz, take the red pill";
+    buttonArea.appendChild(button1);
+
+    var button2 = document.createElement("button");
+    button2.setAttribute("class", "btn btn-primary mx-1 my-1");
+    // button.setAttribute("type=button");
+    button2.innerHTML = "Need more training, take the blue pill";
+    buttonArea.appendChild(button2);
+
+}
+
+// Populate Questions 
+function loadQuestions (){
+
+}
+
+
 
 console.log("timer: " , timer);
 
@@ -65,6 +110,7 @@ function wrongPenalty() {
   past += 5;
 }
 
+// Start counting down
 function startTimer() {
 console.log(" ", )
   if (timer >= past) {
@@ -84,9 +130,11 @@ console.log(" ", )
   
 }
 
-//startTimer();
 
 
+
+
+// Keep for safety. Might need this later. //
 // function countdown() {
 //     if (status == "Start") {
 

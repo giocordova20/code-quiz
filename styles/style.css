@@ -3,10 +3,6 @@ body {
 }
 
 
-#button-area {
-    /* position: absolute; */
-    top: 50px;
-  }
 
 
 @media screen and (max-width: 768px) {
