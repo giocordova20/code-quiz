@@ -8,46 +8,31 @@
     <link rel="stylesheet" href="./styles/style.css" />
 
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-<!--       <a class="navbar-brand" href="#">Navbar</a> -->
       <a class="navbar-brand" href="#">Code Quiz <span style="color:rgb(78, 148, 194) ; font-size:.955rem" >High Scores</span></a>
-    
-      <!-- <div class="collapse navbar-collapse" id="navbarSupportedContent"> -->
-        <ul class="navbar-nav ml-auto">
+            <ul class="navbar-nav ml-auto">
           <li>
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit" id="timer">Timer: 60</button>
+            <button class="btn btn-success my-2 my-sm-0" type="submit" id="timer">Start Timer: 20s</button>
           </li>
         </ul>
-      <!-- </div> -->
     </nav>
-
-
-
-    <!-- <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <a class="navbar-brand" href="#">Code Quiz <span style="color:rgb(78, 148, 194) ; font-size:.955rem" >High Scores</span></a>
-          <button class="btn btn-outline-success my-2 my-sm-0" type="submit" id="timer">Timer: 60</button>
-    
-     </nav> -->
 </head>
 <body>
-    
     <div class="container">
         <div class="row justify-content-md-center">
           <div class="col-md-auto card question">
             <div class="card-body">
-                <h5 class="card-title">Special title treatment</h5>
+                <h5 class="card-title">Question #1</h5>
                 <p class="card-text">This is the question you need to answer. Blue pill or Red Pill?</p>
-                <div class="text-center my-5">
-                  <a href="#" class="btn my-1 btn-dark">Answer 1 - abcdefg</a>
-                  <a href="#" class="btn my-1 btn-dark">Answer 2 - abcdefg</a>
-                  <a href="#" class="btn my-1 btn-dark">Answer 3 - abcdefg</a>
-                  <a href="#" class="btn my-1 btn-dark">Answer 4 - abcdefg</a>
+                <div id="answers" class="text-center my-5">
+                  <a href="#" id = "btn1" class="btn my-1 btn-dark">Answer 1 - abcdefg</a>
+                  <a href="#" id = "btn2" class="btn my-1 btn-dark">Answer 2 - abcdefg</a>
+                  <a href="#" id = "btn3" class="btn my-1 btn-dark">Answer 3 - abcdefg</a>
+                  <a href="#" id = "btn4" class="btn my-1 btn-dark">Answer 4 - abcdefg</a>
                 </div>
             </div>
           </div>
         </div>
       </div>
-
-
 
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
