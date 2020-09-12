@@ -33,7 +33,7 @@ var answer1 = document.getElementById("")
 
 console.log("timer: " , timer);
 
-// Display time left on the button. 
+// Display time left on the button 
 function appendTime() {
   timerLeft = timer - past;  
   console.log({past, remaining: timer - past, timerLeft: timerLeft});

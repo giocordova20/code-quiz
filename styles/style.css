@@ -2,13 +2,10 @@ body {
     background-color: gray;
 }
 
-.question {
+
+#button-area {
     /* position: absolute; */
     top: 50px;
-  }
-
-  .HS {
-      text-align: left;
   }
 
 
