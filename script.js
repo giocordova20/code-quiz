@@ -7,7 +7,7 @@ var interval;
 ///////////////////////
 //   Answer buttons  //
 ///////////////////////
-var 
+var answer1 = document.getElementById("")
 
 
 ////////////////////////////
@@ -30,8 +30,6 @@ var
 // questions[i].title
 // questions[i.].answer
 // questions[i].choices[x]
-
-
 
 console.log("timer: " , timer);
 
