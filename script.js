@@ -1,8 +1,8 @@
-var cardTitle = document.getElementById("title")
-var cardquestion = document.getElementById("question")
-var buttonArea = document.getElementById("button-area")
+var cardTitle = document.getElementById('title')
+var cardquestion = document.getElementById('question')
+var buttonArea = document.getElementById('button-area')
 
-var timerButton = document.querySelector('#timer'); // Displays the time left on the button
+var timerButton = document.querySelector('.timer'); // Displays the time left on the button
 var timer = 10;     // Start Time
 var past = 0;       // Counter for the time that has elapsed
 var timerLeft = 0;  // Variable to track timer-past
@@ -56,14 +56,15 @@ function loadQuiz(){
     cardquestion.textContent="Think you have what it takes to be a web developer?";
 
     var button1 = document.createElement("button");
-    button1.setAttribute("class", "btn btn-danger mx-1 my-1");
-    // button.setAttribute("type=button");
+    //button1.id="timer";
+    button1.setAttribute("class", "btn btn-danger mx-1 my-1 timer2");
     button1.innerHTML = "Start the quiz, take the red pill";
     buttonArea.appendChild(button1);
+    button1.addEventListener("click", startTimer);
+
 
     var button2 = document.createElement("button");
     button2.setAttribute("class", "btn btn-primary mx-1 my-1");
-    // button.setAttribute("type=button");
     button2.innerHTML = "Need more training, take the blue pill";
     buttonArea.appendChild(button2);
 
