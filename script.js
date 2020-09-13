@@ -3,29 +3,14 @@ var cardquestion = document.getElementById('question')
 var buttonArea = document.getElementById('button-area')
 
 var timerButton = document.querySelector('.timer'); // Displays the time left on the button
-var timer = 10;     // Start Time
-var past = 0;       // Counter for the time that has elapsed
-var timerLeft = 0;  // Variable to track timer-past
+var timer = 10; // Start Time
+var past = 0;   // Counter for the time that has elapsed
+var timerLeft;  // Variable to track timer-past
 var interval;       
 
-console.log("cardTitle: ", cardTitle);
-console.log("cardquestion: ", cardquestion);
-console.log("buttonArea: ", buttonArea);
-
-
-///////////////////////
-//   Answer buttons  //
-///////////////////////
-
-// // Question buttons to be created for each question // //
-// <button id = "btn1" class="btn mx-1 my-1 btn-dark">Answer 1 - abcdefg</button>
-// <button id = "btn2" class="btn mx-1 my-1 btn-dark">Answer 2 - abcdefg</button>
-// <button id = "btn3" class="btn mx-1 my-1 btn-dark">Answer 3 - abcdefg</button>
-// <button id = "btn4" class="btn mx-1 my-1 btn-dark">Answer 4 - abcdefg</button>
-
-
-
-
+// console.log("cardTitle: ", cardTitle);
+// console.log("cardquestion: ", cardquestion);
+// console.log("buttonArea: ", buttonArea);
 
 ////////////////////////////
 //  Code Quiz Questions   //
@@ -60,20 +45,28 @@ function loadQuiz(){
     button1.setAttribute("class", "btn btn-danger mx-1 my-1 timer2");
     button1.innerHTML = "Start the quiz, take the red pill";
     buttonArea.appendChild(button1);
-    button1.addEventListener("click", startTimer);
+    button1.addEventListener("click", function(){startTimer(),  loadQuestions()});
 
 
     var button2 = document.createElement("button");
     button2.setAttribute("class", "btn btn-primary mx-1 my-1");
-    button2.innerHTML = "Need more training, take the blue pill";
+    button2.innerHTML = "Need more training? Take the blue pill.";
     buttonArea.appendChild(button2);
+    button2.addEventListener("click",goToW3);
 
 }
 
 // Populate Questions 
 function loadQuestions (){
+    console.log("In loadQuesitons");
+    // // Question buttons to be created for each question // //
+// <button id = "btn1" class="btn mx-1 my-1 btn-dark">Answer 1 - abcdefg</button>
+// <button id = "btn2" class="btn mx-1 my-1 btn-dark">Answer 2 - abcdefg</button>
+// <button id = "btn3" class="btn mx-1 my-1 btn-dark">Answer 3 - abcdefg</button>
+// <button id = "btn4" class="btn mx-1 my-1 btn-dark">Answer 4 - abcdefg</button>
 
-}
+
+};
 
 
 
@@ -90,58 +83,63 @@ function appendTime() {
   }
   timerButton.textContent = "Time Left: " + timerLeft + "s"
   setTimerButtonColor()
-}
+};
 
 // Set the Timer button based on the time remaining
 function setTimerButtonColor(){
-    console.log("============================================");
-    console.log("1. timerLeft in setTimerButton", timerLeft);
+    // console.log("============================================");
+    // console.log("1. timerLeft in setTimerButton", timerLeft);
 
     if (timerLeft < 10 && timerLeft > 0){
         timerButton.classList.replace("btn-success","btn-warning");
     } else if (timerLeft == 0){
-        console.log("2. timerLeft in setTimerButton else if", timerLeft);
-        console.log("============================================");
+        // console.log("2. timerLeft in setTimerButton else if", timerLeft);
+        // console.log("============================================");
         timerButton.classList.replace("btn-warning","btn-danger");
     }
-}
+};
 
 // Add penality time to the time that has past counter to deduct from timer
 function wrongPenalty() {
   past += 5;
-}
+};
 
 // Start counting down
 function startTimer() {
-console.log(" ", )
-  if (timer >= past) {
-    interval = setInterval(function() {
-        if (past % 21 === 0) {
-        past += 5;
-        } else if (timerLeft === 0 ){
-            console.log(" in else if timerLeft", timerLeft)
-            clearInterval(interval)
-        } else {
-            past++
-        }
-        appendTime()
-    }, 1000)
-  
+    console.log("======== in startTimer =======")
+    console.log("past ", past)
+    console.log("timerLeft", timerLeft)
+    if (timer >= past) {
+        interval = setInterval(function() {
+            
+            if (past == 20) {
+            
+                past += 5;
+            } else if (timerLeft === 0 ){
+                console.log(" in else if timerLeft", timerLeft)
+                clearInterval(interval)
+            } else {
+                past++
+            }
+            appendTime()
+        }, 1000)
+    
   } 
   
-}
+};
 
-
+function goToW3(){
+    window.open("https://www.w3schools.com/");
+};
 
 
 
 // Keep for safety. Might need this later. //
 // function countdown() {
-//     if (status == "Start") {
 
 //         var timeInterval = setInterval(function() {
 //             timerButton.textContent = "Time Left: "+ timeLeft + "s";
-//         timeLeft--;
+//         --timeLeft;
 //             console.log("Timer left")
 //         if (timeLeft === 0) {
 //             timerButton.textContent = "Time Left: 0";
@@ -154,7 +152,6 @@ console.log(" ", )
 //         clearInterval(timeInterval);
 
 //     }
-//     status = "Pause";
 //     console.log("status", status);
 
 // }
@@ -163,7 +160,7 @@ console.log(" ", )
 
 
 
-timerButton.addEventListener("click", startTimer);
+timerButton.addEventListener("click", function(){startTimer(),  loadQuestions()});
 
 // timerButton.addEventListener("click", countdown);
 // pauseButton.addEventListener("click", pauseTimer);
