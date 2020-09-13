@@ -1,5 +1,5 @@
 var cardTitle = document.getElementById('title')
-var cardquestion = document.getElementById('question')
+var cardQuestion = document.getElementById('question')
 var buttonArea = document.getElementById('button-area')
 
 var timerButton = document.querySelector('.timer'); // Displays the time left on the button
@@ -9,7 +9,7 @@ var timerLeft;  // Variable to track timer-past
 var interval;       
 
 // console.log("cardTitle: ", cardTitle);
-// console.log("cardquestion: ", cardquestion);
+// console.log("cardQuestion: ", cardQuestion);
 // console.log("buttonArea: ", buttonArea);
 
 
@@ -19,7 +19,7 @@ loadQuiz();
 function loadQuiz(){
 
     cardTitle.textContent="Test your coding knowledge";
-    cardquestion.textContent="Think you have what it takes to be a web developer?";
+    cardQuestion.textContent="Think you have what it takes to be a web developer?";
 
     var button1 = document.createElement("button");
     button1.setAttribute("class", "btn btn-danger mx-1 my-1");
@@ -43,7 +43,7 @@ function loadQuiz(){
 var questions = [
     {
         title: "Alternate text is required for images in case the image does not render. Which of the following is the correct?",
-        choices: ['answer 1', 'answer 2', 'answer 3', 'answer 4'],
+        choices: ['Q1 Answer 1', 'Q2 Answer 2', 'Q3 Answer 3', 'Q4 Answer 4'],
         answer: "<img src='indy500.png' alt='Indy 500 Race Car'>"
     },
     {
@@ -69,8 +69,7 @@ function loadQuestions (){
     console.log("====================================");
     console.log(questions.length);
 
-    // Clear out the Intro card
-
+    
     for (var i=0; i<questions.length; i++){
         console.log(i+" |--| " + "QUESTION |" + questions[i].title + " |--| CHOICES | " + questions[i].choices + " |--| ANSWER | " + questions[i].answer);
         console.log("====================================");
@@ -78,35 +77,27 @@ function loadQuestions (){
     console.log(" "); // Clear out the previous buttons
     console.log("====================================");
 
+    i = 0
+
+    // Clear out the Intro card
     buttonArea.innerHTML = '';
+    
+    // for (var i =0; i<questions.length; i++ ){
+        // cardTitle.textContent="Question # " + i;
+        // cardQuestion.questions[i].title;
+        // button1 = 
+
+        
+    // };
+    
+
     cardTitle.textContent="Question 1";
-    cardquestion.textContent=questions[0].title;
+    cardQuestion.textContent=questions[0].title;
 
-    button1 = document.createElement("button");
-    button1.setAttribute("class", "btn choice1 btn-dark mx-1 my-1");
-    button1.innerHTML = questions[0].choices[0];
-    buttonArea.appendChild(button1);
-    button1.addEventListener("click", function(){startTimer(),  loadQuestions()});
-    
-    button2 = document.createElement("button");
-    button2.setAttribute("class", "btn choice1 btn-dark mx-1 my-1");
-    button2.innerHTML = questions[0].choices[1];
-    buttonArea.appendChild(button2);
-    button2.addEventListener("click", function(){startTimer(),  loadQuestions()});
-    
-    button3 = document.createElement("button");
-    button3.setAttribute("class", "btn choice1 btn-dark mx-1 my-1");
-    button3.innerHTML = questions[0].choices[2];
-    buttonArea.appendChild(button3);
-    button3.addEventListener("click", function(){startTimer(),  loadQuestions()});
-    
-    button4 = document.createElement("button");
-    button4.setAttribute("class", "btn choice1 btn-dark mx-1 my-1");
-    button4.innerHTML = questions[0].choices[3];
-    buttonArea.appendChild(button4);
-    button4.addEventListener("click", function(){startTimer(),  loadQuestions()});
-    // cardquestion.textContent="Think you have what it takes to be a web developer?";
-
+    createButton("button1", 0, 0);
+    createButton("button2", 0, 1);
+    createButton("button3", 0, 2);    
+    createButton("button4", 0, 3);
 
     // // Question buttons to be created for each question // //
 // <button id = "btn1" class="btn mx-1 my-1 btn-dark">Answer 1 - abcdefg</button>
@@ -114,8 +105,16 @@ function loadQuestions (){
 // <button id = "btn3" class="btn mx-1 my-1 btn-dark">Answer 3 - abcdefg</button>
 // <button id = "btn4" class="btn mx-1 my-1 btn-dark">Answer 4 - abcdefg</button>
 };
+// Create a button for button name, question, and choice passed in 
+function createButton(buttonName, i, j){
+    var buttonName = document.createElement("button");
+    buttonName.id = "btn"+[j+1];
+    buttonName.setAttribute("class", "btn choice" + [j+1] + " btn-dark mx-1 my-1");
+    buttonName.innerHTML = questions[i].choices[j];
+    buttonArea.appendChild(buttonName);
+    buttonName.addEventListener("click", function(){startTimer(),  loadQuestions()});
 
-
+};
 
 
 console.log("timer: " , timer);
