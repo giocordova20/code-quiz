@@ -13,9 +13,9 @@ var interval;
 // console.log("buttonArea: ", buttonArea);
 
 
-loadQuiz();
+loadQuiz(); // Load the beginning card and present the Start Quiz button and the More training button
 
-// Set the starting card for the quiz
+//// Set the starting card for the quiz ////
 function loadQuiz(){
 
     cardTitle.textContent="Test your coding knowledge";
@@ -39,12 +39,11 @@ function loadQuiz(){
 ////////////////////////////
 //  Code Quiz Questions   //
 ////////////////////////////
-
 var questions = [
     {
-        title: "Alternate text is required for images in case the image does not render. Which of the following is the correct?",
+        title: "Which of the following is the correct?",
         choices: ['Q1 Answer 1', 'Q2 Answer 2', 'Q3 Answer 3', 'Q4 Answer 4'],
-        answer: "<img src='indy500.png' alt='Indy 500 Race Car'>"
+        answer: 'Q2 Answer 2'
     },
     {
         title: "<a> tags are used to make text a link. Which of the following is correct?",
@@ -57,10 +56,11 @@ var questions = [
 // questions[i.].answer
 // questions[i].choices[x]
 
-// loadQuestions();
 
-// Populate Questions 
+//// Populate Questions ////
 function loadQuestions (){
+    // Clear out the Intro card to populate the questions
+    buttonArea.innerHTML = '';
     console.log("In loadQuesitons");
     console.log("###################################");
     console.log(questions);
@@ -69,35 +69,42 @@ function loadQuestions (){
     console.log("====================================");
     console.log(questions.length);
 
-    
+    /////////  console log the questions array of objects //////
     for (var i=0; i<questions.length; i++){
         console.log(i+" |--| " + "QUESTION |" + questions[i].title + " |--| CHOICES | " + questions[i].choices + " |--| ANSWER | " + questions[i].answer);
         console.log("====================================");
     };
     console.log(" "); // Clear out the previous buttons
     console.log("====================================");
+    ///////////////////////////////////////////////////////////
 
-    i = 0
-
-    // Clear out the Intro card
-    buttonArea.innerHTML = '';
     
-    // for (var i =0; i<questions.length; i++ ){
-        // cardTitle.textContent="Question # " + i;
-        // cardQuestion.questions[i].title;
-        // button1 = 
-
+    var ques = 0;
+    var choice = 0;
+    for (var i =0; i<questions.length; i++ ){
+        cardTitle.textContent="Question # " + (i+1);
+        cardQuestion.textContent=questions[0].title;
         
-    // };
-    
 
-    cardTitle.textContent="Question 1";
-    cardQuestion.textContent=questions[0].title;
+        console.log("questions[ques].choices.length", questions[ques].choices.length)
+        //// Create the answer choice buttons ////
+        for (var b = 0; b<questions[ques].choices.length; b++){
+            console.log("   b",b)
+            createButton(ques,b)
+        };
+        
+        // **** add listener for correct button **** //
+        checkAnswer()
+        ques++
+    };
+    //console.log("questions[i].choices.length", questions[0].choices.length)
 
-    createButton("button1", 0, 0);
-    createButton("button2", 0, 1);
-    createButton("button3", 0, 2);    
-    createButton("button4", 0, 3);
+    // cardTitle.textContent="Question 1";
+    // cardQuestion.textContent=questions[0].title;
+    // createButton(0, 0);
+    // createButton(0, 1);
+    // createButton(0, 2);    
+    // createButton(0, 3);
 
     // // Question buttons to be created for each question // //
 // <button id = "btn1" class="btn mx-1 my-1 btn-dark">Answer 1 - abcdefg</button>
@@ -105,33 +112,58 @@ function loadQuestions (){
 // <button id = "btn3" class="btn mx-1 my-1 btn-dark">Answer 3 - abcdefg</button>
 // <button id = "btn4" class="btn mx-1 my-1 btn-dark">Answer 4 - abcdefg</button>
 };
-// Create a button for button name, question, and choice passed in 
-function createButton(buttonName, i, j){
+////// Create a button for the specified parameters: question(index number of the question in the questions array)
+////// and choice(index number of the choice for the question in the questions array)
+function createButton(i, j){
+    console.log("   in create button",i, j);
+    var buttonNum = j+1
     var buttonName = document.createElement("button");
-    buttonName.id = "btn"+[j+1];
-    buttonName.setAttribute("class", "btn choice" + [j+1] + " btn-dark mx-1 my-1");
+    buttonName.id = "btn"+buttonNum;
+    buttonName.setAttribute("class", "btn q"+i + " choice"+buttonNum + " btn-dark mx-1 my-1");
     buttonName.innerHTML = questions[i].choices[j];
     buttonArea.appendChild(buttonName);
-    buttonName.addEventListener("click", function(){startTimer(),  loadQuestions()});
-
+    buttonName.addEventListener("click", checkAnswer); //(i,".choice"+buttonNum));
 };
 
+//// Check the answer that was clicked ////
+function checkAnswer(){ //ques, button){
+    console.log("  -- in checkAnswer --  ");
+    // console.log(ques,button)
+    // console.log("document.querySelector(button).textContent: ", document.querySelector(button).textContent);
+    console.log("document.querySelector(button).textContent: ", document.querySelector(".choice1").textContent);
+    var choice = document.getElementById("btn1");
+    var classes = choice.className
+    console.log("  choice classes:", classes);
+    console.log("  choice length:", choice.className.length);
+    console.log("  choice :", (choice.className.substring(4, 14)));
+    
+    console.log("  --------------------  ");
+    // if (document.querySelector(button).textContent === questions[ques].answer){
+    //     alert("You got the right one baby!!!")
+    //     return true
+    
+    // } else {
+    //     alert("YOU GOT THE WRONG ONE!!!")
+    //     return false
+    // }
+
+};
 
 console.log("timer: " , timer);
-// Display time left on the button 
+//// Display time left on the nav button ////
 function appendTime() {
-  timerLeft = timer - past;  
-  console.log({past, remaining: timer - past, timerLeft: timerLeft});
-    
-  // Set the time left to 0 if the timer goes negative
-  if (timerLeft<0){
-      timerLeft = 0;
-  }
-  timerButton.textContent = "Time Left: " + timerLeft + "s"
-  setTimerButtonColor()
+    timerLeft = timer - past;  
+    //   console.log({past, remaining: timer - past, timerLeft: timerLeft});
+        
+    // Set the time left to 0 if the timer goes negative
+    if (timerLeft<0){
+        timerLeft = 0;
+    }
+    timerButton.textContent = "Time Left: " + timerLeft + "s"
+    setTimerButtonColor()
 };
 
-// Set the Timer button based on the time remaining
+//// Set the Timer button color based on the time remaining ////
 function setTimerButtonColor(){
     // console.log("============================================");
     // console.log("1. timerLeft in setTimerButton", timerLeft);
@@ -145,16 +177,16 @@ function setTimerButtonColor(){
     }
 };
 
-// Add penality time to the time that has past counter to deduct from timer
+//// Add penality time to the time that has past counter to deduct from timer ////
 function wrongPenalty() {
   past += 5;
 };
 
-// Start counting down
+//// Start counting down ////
 function startTimer() {
-    console.log("======== in startTimer =======")
-    console.log("past ", past)
-    console.log("timerLeft", timerLeft)
+    // console.log("======== in startTimer =======")
+    // console.log("past ", past)
+    // console.log("timerLeft", timerLeft)
     if (timer >= past) {
         interval = setInterval(function() {
             
@@ -174,6 +206,7 @@ function startTimer() {
   
 };
 
+//// Navigate to w3schools.com ////
 function goToW3(){
     window.open("https://www.w3schools.com/");
 };
