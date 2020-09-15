@@ -1,8 +1,8 @@
 var cardTitle = document.getElementById('title')
 var cardQuestion = document.getElementById('question')
 var buttonArea = document.getElementById('button-area')
-
 var timerButton = document.querySelector('.timer'); // Displays the time left on the button
+
 var timer = 10; // Start Time
 var past = 0;   // Counter for the time that has elapsed
 var timerLeft;  // Variable to track timer-past
@@ -57,30 +57,32 @@ var questions = [
 // questions[i].choices[x]
 
 
+var ques = 0;
+var choice = 0;
 //// Populate Questions ////
 function loadQuestions (){
     // Clear out the Intro card to populate the questions
     buttonArea.innerHTML = '';
-    console.log("In loadQuesitons");
-    console.log("###################################");
-    console.log(questions);
-    console.log("###################################");
+    // console.log("In loadQuesitons");
+    // console.log("###################################");
+    // console.log(questions);
+    // console.log("###################################");
 
-    console.log("====================================");
-    console.log(questions.length);
+    // console.log("====================================");
+    // console.log(questions.length);
 
-    /////////  console log the questions array of objects //////
-    for (var i=0; i<questions.length; i++){
-        console.log(i+" |--| " + "QUESTION |" + questions[i].title + " |--| CHOICES | " + questions[i].choices + " |--| ANSWER | " + questions[i].answer);
-        console.log("====================================");
-    };
-    console.log(" "); // Clear out the previous buttons
-    console.log("====================================");
-    ///////////////////////////////////////////////////////////
+    // /////////  console log the questions array of objects //////
+    // for (var i=0; i<questions.length; i++){
+    //     console.log(i+" |--| " + "QUESTION |" + questions[i].title + " |--| CHOICES | " + questions[i].choices + " |--| ANSWER | " + questions[i].answer);
+    //     console.log("====================================");
+    // };
+    // console.log(" "); // Clear out the previous buttons
+    // console.log("====================================");
+    // ///////////////////////////////////////////////////////////
 
     
-    var ques = 0;
-    var choice = 0;
+    // var ques = 0;
+    // var choice = 0;
     for (var i =0; i<questions.length; i++ ){
         cardTitle.textContent="Question # " + (i+1);
         cardQuestion.textContent=questions[0].title;
@@ -94,7 +96,7 @@ function loadQuestions (){
         };
         
         // **** add listener for correct button **** //
-        checkAnswer()
+        // checkAnswer()
         ques++
     };
     //console.log("questions[i].choices.length", questions[0].choices.length)
@@ -127,17 +129,51 @@ function createButton(i, j){
 
 //// Check the answer that was clicked ////
 function checkAnswer(){ //ques, button){
-    console.log("  -- in checkAnswer --  ");
-    // console.log(ques,button)
+    console.log("  ---- in checkAnswer ----  ");
+    var answerButton1 = document.getElementById('btn1');
+    var answerButton2 = document.getElementById('btn2');
+    var answerButton3 = document.getElementById('btn3');
+    var answerButton4 = document.getElementById('btn4');
+
+    var choices = [answerButton1, answerButton2, answerButton3, answerButton4];
+    // console.log("buttonNum", buttonNum);
     // console.log("document.querySelector(button).textContent: ", document.querySelector(button).textContent);
-    console.log("document.querySelector(button).textContent: ", document.querySelector(".choice1").textContent);
-    var choice = document.getElementById("btn1");
-    var classes = choice.className
-    console.log("  choice classes:", classes);
-    console.log("  choice length:", choice.className.length);
-    console.log("  choice :", (choice.className.substring(4, 14)));
     
-    console.log("  --------------------  ");
+    choices.forEach(element => {
+        var choice = element.textContent;
+        var classes = element.className;
+        var question = classes.substring(5,6);
+        console.log("  choice : ", choice);
+        console.log("  classes : ", classes);
+        console.log("  question : ", question);
+
+
+        if (choice === questions[question].answer){
+            console.log("  You have chosen wisely.")
+            return
+        }else {
+            console.log("  WRONG!!!")        
+        }
+
+    });
+
+
+
+
+    // // console.log("document.querySelector(button).textContent: ", document.querySelector(".choice1").textContent);
+    // var choice = answerButton1.textContent;
+    // console.log("   answerButton1.textContent: ", answerButton1.textContent);
+    // console.log("   choice: ", choice);
+    // console.log("   question answer: ", questions[0].answer);
+
+    // var classes = answerButton1.className;
+    // console.log("  choice classes:", classes);
+    // // console.log("  choice length:", answerButton1.className.length);
+    // console.log("  question: ", (answerButton1.className.substring(5, 6)));
+    // // console.log("  answer: ", (answerButton1.className.substring(7, 14)));
+    
+    
+    console.log("  ------------------------  ");
     // if (document.querySelector(button).textContent === questions[ques].answer){
     //     alert("You got the right one baby!!!")
     //     return true
@@ -240,6 +276,7 @@ function goToW3(){
 
 
 timerButton.addEventListener("click", function(){startTimer(),  loadQuestions()});
+
 
 // timerButton.addEventListener("click", countdown);
 // pauseButton.addEventListener("click", pauseTimer);
