@@ -3,7 +3,7 @@ var cardQuestion = document.getElementById('question')
 var buttonArea = document.getElementById('button-area')
 var timerButton = document.querySelector('.timer'); // Displays the time left on the button
 
-var timer = 10; // Start Time
+var time = 100; // Start Time
 var past = 0;   // Counter for the time that has elapsed
 var timerLeft;  // Variable to track timer-past
 var interval;       
@@ -63,57 +63,29 @@ var choice = 0;
 function loadQuestions (){
     // Clear out the Intro card to populate the questions
     buttonArea.innerHTML = '';
-    // console.log("In loadQuesitons");
-    // console.log("###################################");
-    // console.log(questions);
-    // console.log("###################################");
-
-    // console.log("====================================");
-    // console.log(questions.length);
-
-    // /////////  console log the questions array of objects //////
-    // for (var i=0; i<questions.length; i++){
-    //     console.log(i+" |--| " + "QUESTION |" + questions[i].title + " |--| CHOICES | " + questions[i].choices + " |--| ANSWER | " + questions[i].answer);
-    //     console.log("====================================");
-    // };
-    // console.log(" "); // Clear out the previous buttons
-    // console.log("====================================");
-    // ///////////////////////////////////////////////////////////
-
-    
-    // var ques = 0;
-    // var choice = 0;
-    for (var i =0; i<questions.length; i++ ){
-        cardTitle.textContent="Question # " + (i+1);
-        cardQuestion.textContent=questions[0].title;
+    cardTitle.textContent="Question # " + (ques+1);
+    cardQuestion.textContent=questions[0].title;
         
-
-        console.log("questions[ques].choices.length", questions[ques].choices.length)
-        //// Create the answer choice buttons ////
-        for (var b = 0; b<questions[ques].choices.length; b++){
-            console.log("   b",b)
-            createButton(ques,b)
-        };
-        
-        // **** add listener for correct button **** //
-        // checkAnswer()
-        ques++
+    // Create the answer choice buttons //
+    for (var b = 0; b<questions[ques].choices.length; b++){
+        console.log("   b",b)
+        createButton(ques,b)
     };
-    //console.log("questions[i].choices.length", questions[0].choices.length)
-
-    // cardTitle.textContent="Question 1";
-    // cardQuestion.textContent=questions[0].title;
-    // createButton(0, 0);
-    // createButton(0, 1);
-    // createButton(0, 2);    
-    // createButton(0, 3);
-
-    // // Question buttons to be created for each question // //
-// <button id = "btn1" class="btn mx-1 my-1 btn-dark">Answer 1 - abcdefg</button>
-// <button id = "btn2" class="btn mx-1 my-1 btn-dark">Answer 2 - abcdefg</button>
-// <button id = "btn3" class="btn mx-1 my-1 btn-dark">Answer 3 - abcdefg</button>
-// <button id = "btn4" class="btn mx-1 my-1 btn-dark">Answer 4 - abcdefg</button>
+        
+    createAddEventListner(); // Add event listener to each of the anwer buttons
+    
 };
+
+//// Add the click eventListner to the answer buttons that runs the checkAnswer function ////
+function createAddEventListner(){
+    var getAnswers = document.querySelectorAll(".answer"); // Get all the buttons on the page with the class of answer
+    
+    for (var i = 0; i<getAnswers.length; i++){
+        getAnswers[i].addEventListener("click", checkAnswer );
+    };
+
+};
+
 ////// Create a button for the specified parameters: question(index number of the question in the questions array)
 ////// and choice(index number of the choice for the question in the questions array)
 function createButton(i, j){
@@ -121,81 +93,37 @@ function createButton(i, j){
     var buttonNum = j+1
     var buttonName = document.createElement("button");
     buttonName.id = "btn"+buttonNum;
-    buttonName.setAttribute("class", "btn q"+i + " choice"+buttonNum + " btn-dark mx-1 my-1");
+    buttonName.setAttribute("class", "answer btn-dark mx-1 my-1");
     buttonName.innerHTML = questions[i].choices[j];
     buttonArea.appendChild(buttonName);
-    buttonName.addEventListener("click", checkAnswer); //(i,".choice"+buttonNum));
 };
 
 //// Check the answer that was clicked ////
-function checkAnswer(){ //ques, button){
+function checkAnswer(){
     console.log("  ---- in checkAnswer ----  ");
-    var answerButton1 = document.getElementById('btn1');
-    var answerButton2 = document.getElementById('btn2');
-    var answerButton3 = document.getElementById('btn3');
-    var answerButton4 = document.getElementById('btn4');
+    if  (this.textContent === questions[ques].answer){
+    console.log("  This correct  ")
 
-    var choices = [answerButton1, answerButton2, answerButton3, answerButton4];
-    // console.log("buttonNum", buttonNum);
-    // console.log("document.querySelector(button).textContent: ", document.querySelector(button).textContent);
-    
-    choices.forEach(element => {
-        var choice = element.textContent;
-        var classes = element.className;
-        var question = classes.substring(5,6);
-        console.log("  choice : ", choice);
-        console.log("  classes : ", classes);
-        console.log("  question : ", question);
+    }   else {
+    console.log("  WRONG!!!")
+    time = time - 10;
+    appendTime();
+    }
 
+    ques++ // increase the global questions
+    loadQuestions();        
 
-        if (choice === questions[question].answer){
-            console.log("  You have chosen wisely.")
-            return
-        }else {
-            console.log("  WRONG!!!")        
-        }
-
-    });
+    };
 
 
 
 
-    // // console.log("document.querySelector(button).textContent: ", document.querySelector(".choice1").textContent);
-    // var choice = answerButton1.textContent;
-    // console.log("   answerButton1.textContent: ", answerButton1.textContent);
-    // console.log("   choice: ", choice);
-    // console.log("   question answer: ", questions[0].answer);
 
-    // var classes = answerButton1.className;
-    // console.log("  choice classes:", classes);
-    // // console.log("  choice length:", answerButton1.className.length);
-    // console.log("  question: ", (answerButton1.className.substring(5, 6)));
-    // // console.log("  answer: ", (answerButton1.className.substring(7, 14)));
-    
-    
-    console.log("  ------------------------  ");
-    // if (document.querySelector(button).textContent === questions[ques].answer){
-    //     alert("You got the right one baby!!!")
-    //     return true
-    
-    // } else {
-    //     alert("YOU GOT THE WRONG ONE!!!")
-    //     return false
-    // }
-
-};
-
-console.log("timer: " , timer);
 //// Display time left on the nav button ////
 function appendTime() {
-    timerLeft = timer - past;  
-    //   console.log({past, remaining: timer - past, timerLeft: timerLeft});
         
     // Set the time left to 0 if the timer goes negative
-    if (timerLeft<0){
-        timerLeft = 0;
-    }
-    timerButton.textContent = "Time Left: " + timerLeft + "s"
+    timerButton.textContent = "Time Left: " + time + "s"
     setTimerButtonColor()
 };
 
@@ -220,27 +148,26 @@ function wrongPenalty() {
 
 //// Start counting down ////
 function startTimer() {
-    // console.log("======== in startTimer =======")
-    // console.log("past ", past)
-    // console.log("timerLeft", timerLeft)
-    if (timer >= past) {
-        interval = setInterval(function() {
-            
-            if (past == 20) {
-            
-                past += 5;
-            } else if (timerLeft === 0 ){
-                console.log(" in else if timerLeft", timerLeft)
-                clearInterval(interval)
-            } else {
-                past++
-            }
-            appendTime()
-        }, 1000)
-    
-  } 
-  
+    var clock = setInterval(function() {
+        // Stop condition for the timer 
+        // (must be within the setInterval)
+        if (time <= 0) {
+          stopTimer();
+          return;
+        }    
+        appendTime();
+        time--
+      }, 1000)
+      
 };
+
+function stopTimer() {
+    console.log("Time's Up!!");
+    // clear the page
+    // Display time is up
+    //Direct user to the High Scores page
+
+  };
 
 //// Navigate to w3schools.com ////
 function goToW3(){
@@ -249,34 +176,8 @@ function goToW3(){
 
 
 
-// Keep for safety. Might need this later. //
-// function countdown() {
-
-//         var timeInterval = setInterval(function() {
-//             timerButton.textContent = "Time Left: "+ timeLeft + "s";
-//         --timeLeft;
-//             console.log("Timer left")
-//         if (timeLeft === 0) {
-//             timerButton.textContent = "Time Left: 0";
-//         clearInterval(timeInterval);
-//         }
-//         }, 1000);
-
-//     } else {
-//         console.log("In else")
-//         clearInterval(timeInterval);
-
-//     }
-//     console.log("status", status);
-
-// }
-
-
-
 
 
 timerButton.addEventListener("click", function(){startTimer(),  loadQuestions()});
 
 
-// timerButton.addEventListener("click", countdown);
-// pauseButton.addEventListener("click", pauseTimer);
