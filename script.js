@@ -4,9 +4,10 @@ var cardQuestion = document.getElementById('question');
 var buttonArea = document.getElementById('button-area');
 var timerButton = document.querySelector('.timer');     // Displays the time left on the button
 
-var time = 35; // Quiz Time
+var time = 25;  // Quiz Time
 var past = 0;   // Counter for the time that has elapsed
 var timerLeft;  // Variable to track timer-past
+var clock;      // Variable for the clock interval
 
 loadQuiz(); // Load the beginning card and present the Start Quiz button and the More training button
 
@@ -118,9 +119,10 @@ function checkAnswer(){
     console.log("    ================");
     console.log("")
     time = time - 10;
-    if (time<0){
+    if (time<=0){
         time = 0;
-        //***call function to stop timer */
+        //*** call function to stop timer ***/
+        stopTimer();
     }
     appendTime();
     }
@@ -146,6 +148,7 @@ function checkAnswer(){
 //// Display time left on the nav button ////
 function appendTime() {
     // Set the time left to 0 if the timer goes negative
+
     timerButton.textContent = "Time Left: " + time + "s"
     setTimerButtonColor()
 };
@@ -164,10 +167,9 @@ function setTimerButtonColor(){
     }
 };
 
-
 //// Start counting down ////
 function startTimer() {
-    var clock = setInterval(function() {
+    clock = setInterval(function() {
         // Stop condition for the timer 
         // (must be within the setInterval)
         if (time <= 0) {
@@ -181,11 +183,15 @@ function startTimer() {
 };
 
 function stopTimer() {
-    console.log("Time's Up!!");
-    // clear the page
-    // Display time is up
-    //Direct user to the High Scores page
+//    console.log( "    In stopTimer:  ", time);
+    appendTime(); // Time is 0 at this point. Display it on the button.
+  
+    clearInterval(clock); //Stop the Clock
 
+    // Display time is up
+    console.log("Time's Up!!");
+    
+    //Direct user to the High Scores page
   };
 
 //// Navigate to w3schools.com ////
