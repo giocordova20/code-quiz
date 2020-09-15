@@ -1,22 +1,18 @@
-var cardTitle = document.getElementById('title')
-var cardQuestion = document.getElementById('question')
-var buttonArea = document.getElementById('button-area')
-var timerButton = document.querySelector('.timer'); // Displays the time left on the button
+var card = document.querySelector(".card");
+var cardTitle = document.getElementById('title');
+var cardQuestion = document.getElementById('question');
+var buttonArea = document.getElementById('button-area');
+var timerButton = document.querySelector('.timer');     // Displays the time left on the button
 
-var time = 100; // Start Time
+var time = 35; // Quiz Time
 var past = 0;   // Counter for the time that has elapsed
 var timerLeft;  // Variable to track timer-past
-var interval;       
-
-// console.log("cardTitle: ", cardTitle);
-// console.log("cardQuestion: ", cardQuestion);
-// console.log("buttonArea: ", buttonArea);
-
 
 loadQuiz(); // Load the beginning card and present the Start Quiz button and the More training button
 
 //// Set the starting card for the quiz ////
 function loadQuiz(){
+    timerButton.textContent = "Start Timer: " + time + "s"
 
     cardTitle.textContent="Test your coding knowledge";
     cardQuestion.textContent="Think you have what it takes to be a web developer?";
@@ -34,41 +30,40 @@ function loadQuiz(){
     button2.addEventListener("click",goToW3);
 };
 
-
-
 ////////////////////////////
 //  Code Quiz Questions   //
 ////////////////////////////
 var questions = [
     {
-        title: "Which of the following is the correct?",
-        choices: ['Q1 Answer 1', 'Q2 Answer 2', 'Q3 Answer 3', 'Q4 Answer 4'],
-        answer: 'Q2 Answer 2'
+        title: "Which of the following is the correct way to create an alert stating \" Hello World!\" ",
+        choices: ["message(\"Hello World!\");", "alert(\"Hello World!\");", "alertBox(\"Hellow World!\");", "messageBox(\"Hello World!\");"],
+        answer: "alert(\"Hello World!\");"
     },
     {
-        title: "<a> tags are used to make text a link. Which of the following is correct?",
-        choices: ["<a href = 'https://google.com'>Google Search<a>", "<a href = 'https://google.com'>Google Search</a>", "</a href = 'https://google.com'>Google Search</a>", "<a> href = 'https://google.com'>Google Search</a>"],
+        title: "<a> tags are used to create a text link. Which of the following is correct?",
+        choices: ["<a href = 'https://google.com'>Google Search</a>", "<a link = 'https://google.com'>Google Search</a>", "</a href = 'https://google.com'>Google Search</a>", "<a> href = 'https://google.com'>Google Search</a>"],
         answer: "<a href = 'https://google.com'>Google Search</a>"
+    },        
+    {
+        title: "How do you begin a for loop in JavaScript?",
+        choices: ["(for i==0; i<5)", "for (i=0; i<5)", "for (i=0; i<5; i++)"],
+        answer: "for (i=0; i<5; i++)"
     },        
      ];
 
-// questions[i].title
-// questions[i.].answer
-// questions[i].choices[x]
-
-
 var ques = 0;
-var choice = 0;
 //// Populate Questions ////
 function loadQuestions (){
+
+    console.log(" The value of ques is: ", ques);
     // Clear out the Intro card to populate the questions
     buttonArea.innerHTML = '';
     cardTitle.textContent="Question # " + (ques+1);
-    cardQuestion.textContent=questions[0].title;
+    cardQuestion.textContent=questions[ques].title;
         
     // Create the answer choice buttons //
     for (var b = 0; b<questions[ques].choices.length; b++){
-        console.log("   b",b)
+    // for (var b = 0; b<4; b++){
         createButton(ques,b)
     };
         
@@ -83,45 +78,73 @@ function createAddEventListner(){
     for (var i = 0; i<getAnswers.length; i++){
         getAnswers[i].addEventListener("click", checkAnswer );
     };
-
 };
 
 ////// Create a button for the specified parameters: question(index number of the question in the questions array)
 ////// and choice(index number of the choice for the question in the questions array)
 function createButton(i, j){
-    console.log("   in create button",i, j);
     var buttonNum = j+1
     var buttonName = document.createElement("button");
     buttonName.id = "btn"+buttonNum;
     buttonName.setAttribute("class", "answer btn-dark mx-1 my-1");
-    buttonName.innerHTML = questions[i].choices[j];
+    buttonName.textContent = questions[i].choices[j];
     buttonArea.appendChild(buttonName);
 };
 
 //// Check the answer that was clicked ////
 function checkAnswer(){
-    console.log("  ---- in checkAnswer ----  ");
-    if  (this.textContent === questions[ques].answer){
-    console.log("  This correct  ")
+    console.log("-----------------------------------------------");
+    console.log("            ---- in checkAnswer ----          ");
+    console.log("    this.textContent:      ", this.textContent);
+    console.log("    questions[ques].answer:", questions[ques].answer);
+    if (this.textContent === questions[ques].answer){
+    console.log("    ================");
+    console.log("    This correct  ");
 
-    }   else {
-    console.log("  WRONG!!!")
+    setTimeout(function(){
+        card.classList.add("bg-success");
+
+    },100);
+    console.log("    ================");
+    
+    } else {
+    console.log("    ================");
+    console.log("       WRONG!!!");
+    setTimeout(function(){
+        card.classList.add("bg-success");
+    },100);
+
+    card.classList.add("bg-danger");
+    console.log("    ================");
+    console.log("")
     time = time - 10;
+    if (time<0){
+        time = 0;
+        //***call function to stop timer */
+    }
     appendTime();
     }
 
     ques++ // increase the global questions
+
+    if (ques>=questions.length){
+        console.log(" In the if ")
+        return;
+    };
+
+    // if (card.classList.contains("bg-success")){
+    //     card.classList.remove("bg-success")
+    // } else if(card.classList.contains("bg-danger")){
+    //     card.classList.remove("bg-danger")
+    // };
+    console.log("-----------------------------------------------");
+
     loadQuestions();        
 
     };
 
-
-
-
-
 //// Display time left on the nav button ////
 function appendTime() {
-        
     // Set the time left to 0 if the timer goes negative
     timerButton.textContent = "Time Left: " + time + "s"
     setTimerButtonColor()
@@ -132,19 +155,15 @@ function setTimerButtonColor(){
     // console.log("============================================");
     // console.log("1. timerLeft in setTimerButton", timerLeft);
 
-    if (timerLeft < 10 && timerLeft > 0){
+    if (time < 10 && time > 0){
         timerButton.classList.replace("btn-success","btn-warning");
-    } else if (timerLeft == 0){
+    } else if (time == 0){
         // console.log("2. timerLeft in setTimerButton else if", timerLeft);
         // console.log("============================================");
         timerButton.classList.replace("btn-warning","btn-danger");
     }
 };
 
-//// Add penality time to the time that has past counter to deduct from timer ////
-function wrongPenalty() {
-  past += 5;
-};
 
 //// Start counting down ////
 function startTimer() {
