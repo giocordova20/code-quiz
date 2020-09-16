@@ -5,7 +5,9 @@ var cardQuestion = document.getElementById('question');
 var buttonArea = document.getElementById('button-area');
 var playAgainButton = document.getElementById('play-again');
 var viewSubmitButton = document.getElementById('submit-view');
-var playerName = document.getElementById('recipient-name');
+var playerName = document.querySelector('.player-name');
+var gameOverMessage = document.querySelector(".game-over");
+var gameOverNotify = document.querySelector(".notify")
 var score = 0;
 var time = 25;  // Quiz Time
 var past = 0;   // Counter for the time that has elapsed
@@ -55,6 +57,11 @@ var questions = [
         choices: ["(for i==0; i<5)", "for (i=0; i<5)", "for (i=0; i<5; i++)"],
         answer: "for (i=0; i<5; i++)"
     },        
+    {
+        title: "How do you reference a java script file?",
+        choices: ["link=myjsfile.js", "href=myjsfile.js", "src=myjsfile.js"],
+        answer: "src=myjsfile.js"
+    }        
      ];
 
 var ques = 0;
@@ -110,7 +117,7 @@ function checkAnswer(){
     if (this.textContent === questions[ques].answer){
     console.log("    ================");
     console.log("    This correct  ");
-
+        score += 10;
     console.log("    ================");
     
     } else {
@@ -128,37 +135,57 @@ function checkAnswer(){
     }
     // appendTime();
     
-
+    
     ques++ // increase the global questions
 
     console.log("----------------"+time+"-------------------------------");
 
+    
+    if (ques>=questions.length){
+        stopTimer();
+        gameOver();
+        return;
+    }
     if (time >= 0){
 
         loadQuestions();        
     }
-    
 
+    
     };
 
 //// Load Game OVer Modal ////
 function gameOver(){
+    gameOverMessage.textContent ="Thanks for Playing. Your score is: " + score;
     $('#game-over').modal();
 
-    // Reset the question index and Quiz in case Play Again is clicked
-    // ques = 0;
-    // time = 25;
     console.log("");
     console.log("");
     console.log("");
 };
 
 
+function displayMessage(type, message) {
+    gameOverNotify.textContent = message;
+    gameOverNotify.setAttribute("class", type);
+  }
 
 //// Go To High Scores ////
 function goToHighScores(){
+    var player = {
+        name: playerName.value,
+        userScore: score 
+    };
 
+    console.log(player.playerName);
+    if (player.playerName === ""){
+        displayMessage("error", "Name cannot be blank")
+    }
+    console.log(player);
+
+    localStorage.setItem("player",JSON.stringify(player));
     ////**** 1. Get user name 2. Get user High Score */
+
 
     window.open("scores.html")
 
