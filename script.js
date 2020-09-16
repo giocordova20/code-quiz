@@ -71,8 +71,7 @@ function loadQuestions (){
     if (time > 10){
         timerButton.classList.replace("btn-danger","btn-success")
     };
-    console.log("   Begin loadQuestions ")
-    console.log(" The value of ques in loadQuestions is: ", ques);
+
     // Clear out the Intro card to populate the questions
     buttonArea.innerHTML = '';
     cardTitle.textContent="Question # " + (ques+1);
@@ -110,21 +109,9 @@ function createAddEventListner(){
 
 //// Check the answer that was clicked ////
 function checkAnswer(){
-    console.log("-----------------------------------------------");
-    console.log("            ---- in checkAnswer ----          ");
-    console.log("    this.textContent:      ", this.textContent);
-    console.log("    questions[ques].answer:", questions[ques].answer);
     if (this.textContent === questions[ques].answer){
-    console.log("    ================");
-    console.log("    This correct  ");
         score += 10;
-    console.log("    ================");
-    
     } else {
-    console.log("    ================");
-    console.log("       WRONG!!!");
-    console.log("    ================");
-    console.log("")
     time = time - 10;
 
     if (time<=0){
@@ -133,13 +120,8 @@ function checkAnswer(){
         stopTimer();
     }
     }
-    // appendTime();
-    
     
     ques++ // increase the global questions
-
-    console.log("----------------"+time+"-------------------------------");
-
     
     if (ques>=questions.length){
         stopTimer();
@@ -159,9 +141,6 @@ function gameOver(){
     gameOverMessage.textContent ="Thanks for Playing. Your score is: " + score;
     $('#game-over').modal();
 
-    console.log("");
-    console.log("");
-    console.log("");
 };
 
 
@@ -170,21 +149,31 @@ function displayMessage(type, message) {
     gameOverNotify.setAttribute("class", type);
   }
 
-//// Go To High Scores ////
+//// Go To High Scores //// *** This function needs work. I couldn't store multiple 
+//// players in locatStorage
 function goToHighScores(){
+    // Get what's in local storage 
+    var existingPlayer = [JSON.parse(localStorage.getItem('player'))];
+    // console.log("existingPlayer", existingPlayer);
+
+    // Get the current player name and score
     var player = {
         name: playerName.value,
         userScore: score 
     };
+    // console.log("player", player);
 
-    console.log(player.playerName);
+    // Add current player name and score to existing player
+    existingPlayer.push(player);
+
+    // Add the updated existing player info back to localStorage
+    localStorage.setItem('player',JSON.stringify(existingPlayer));
+
     if (player.playerName === ""){
         displayMessage("error", "Name cannot be blank")
     }
-    console.log(player);
 
     localStorage.setItem("player",JSON.stringify(player));
-    ////**** 1. Get user name 2. Get user High Score */
 
 
     window.open("scores.html")
@@ -200,14 +189,9 @@ function appendTime() {
 
 //// Set the Timer button color based on the time remaining ////
 function setTimerButtonColor(){
-    // console.log("============================================");
-    // if (time > 10 && timerButton.classList.contains("btn-danger")){
-    //     timerButton.classList.replace("btn-danger", "btn-succes")
-    // }else 
     if (time <= 10 && time > 0){
         timerButton.classList.replace("btn-success","btn-warning");
     } else if (time == 0){
-        // console.log("============================================");
         timerButton.classList.replace("btn-warning","btn-danger");
     }
 
@@ -215,7 +199,6 @@ function setTimerButtonColor(){
 
 //// Start counting down ////
 function startTimer() {
-    console.log("time at the beginning of Start Timer", time);
     timerButton.classList.replace("btn-danger", "btn-succes")
 
     clock = setInterval(function() {
@@ -233,13 +216,11 @@ function startTimer() {
 };
 
 function stopTimer() {
-   console.log( "In stopTimer. The value of ques:  ", ques);
     appendTime(); // Time is 0 at this point. Display it on the button.
   
     clearInterval(clock); //Stop the Clock
 
     // Display time is up
-    console.log("Time's Up!!");
     gameOver();
     ques = 0;
     time = 25;
@@ -249,14 +230,6 @@ function stopTimer() {
 function goToW3(){
     window.open("https://www.w3schools.com/");
 };
-
-
-
-
-
-console.log("playAgainButton", playAgainButton);
-console.log("playAgainButton", playAgainButton);
-console.log("playerName", playerName);
 
 timerButton.addEventListener("click", function(){startTimer(),  loadQuestions()});
 playAgainButton.addEventListener("click",loadQuiz);
