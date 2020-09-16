@@ -1,12 +1,14 @@
+var timerButton = document.querySelector('.timer');     // Displays the time left on the button
 var card = document.querySelector(".card");
 var cardTitle = document.getElementById('title');
 var cardQuestion = document.getElementById('question');
 var buttonArea = document.getElementById('button-area');
-var timerButton = document.querySelector('.timer');     // Displays the time left on the button
-
+var playAgainButton = document.getElementById('play-again');
+var viewSubmitButton = document.getElementById('submit-view');
+var playerName = document.getElementById('recipient-name');
+var score = 0;
 var time = 25;  // Quiz Time
 var past = 0;   // Counter for the time that has elapsed
-var timerLeft;  // Variable to track timer-past
 var clock;      // Variable for the clock interval
 
 loadQuiz(); // Load the beginning card and present the Start Quiz button and the More training button
@@ -14,6 +16,9 @@ loadQuiz(); // Load the beginning card and present the Start Quiz button and the
 //// Set the starting card for the quiz ////
 function loadQuiz(){
     timerButton.textContent = "Start Timer: " + time + "s"
+    timerButton.classList.add("btn-success");
+
+    buttonArea.innerHTML = ''; // Clear button area in case the Play Again button is clicked
 
     cardTitle.textContent="Test your coding knowledge";
     cardQuestion.textContent="Think you have what it takes to be a web developer?";
@@ -56,7 +61,11 @@ var ques = 0;
 //// Populate Questions ////
 function loadQuestions (){
 
-    console.log(" The value of ques is: ", ques);
+    if (time > 10){
+        timerButton.classList.replace("btn-danger","btn-success")
+    };
+    console.log("   Begin loadQuestions ")
+    console.log(" The value of ques in loadQuestions is: ", ques);
     // Clear out the Intro card to populate the questions
     buttonArea.innerHTML = '';
     cardTitle.textContent="Question # " + (ques+1);
@@ -72,15 +81,6 @@ function loadQuestions (){
     
 };
 
-//// Add the click eventListner to the answer buttons that runs the checkAnswer function ////
-function createAddEventListner(){
-    var getAnswers = document.querySelectorAll(".answer"); // Get all the buttons on the page with the class of answer
-    
-    for (var i = 0; i<getAnswers.length; i++){
-        getAnswers[i].addEventListener("click", checkAnswer );
-    };
-};
-
 ////// Create a button for the specified parameters: question(index number of the question in the questions array)
 ////// and choice(index number of the choice for the question in the questions array)
 function createButton(i, j){
@@ -90,6 +90,15 @@ function createButton(i, j){
     buttonName.setAttribute("class", "answer btn-dark mx-1 my-1");
     buttonName.textContent = questions[i].choices[j];
     buttonArea.appendChild(buttonName);
+};
+
+//// Add the click eventListner to the answer buttons that runs the checkAnswer function ////
+function createAddEventListner(){
+    var getAnswers = document.querySelectorAll(".answer"); // Get all the buttons on the page with the class of answer
+    
+    for (var i = 0; i<getAnswers.length; i++){
+        getAnswers[i].addEventListener("click", checkAnswer );
+    };
 };
 
 //// Check the answer that was clicked ////
@@ -102,52 +111,61 @@ function checkAnswer(){
     console.log("    ================");
     console.log("    This correct  ");
 
-    setTimeout(function(){
-        card.classList.add("bg-success");
-
-    },100);
     console.log("    ================");
     
     } else {
     console.log("    ================");
     console.log("       WRONG!!!");
-    setTimeout(function(){
-        card.classList.add("bg-success");
-    },100);
-
-    card.classList.add("bg-danger");
     console.log("    ================");
     console.log("")
     time = time - 10;
+
     if (time<=0){
         time = 0;
-        //*** call function to stop timer ***/
+        ques = 0; // Reset the index of the question
         stopTimer();
     }
-    appendTime();
     }
+    // appendTime();
+    
 
     ques++ // increase the global questions
 
-    if (ques>=questions.length){
-        console.log(" In the if ")
-        return;
-    };
+    console.log("----------------"+time+"-------------------------------");
 
-    // if (card.classList.contains("bg-success")){
-    //     card.classList.remove("bg-success")
-    // } else if(card.classList.contains("bg-danger")){
-    //     card.classList.remove("bg-danger")
-    // };
-    console.log("-----------------------------------------------");
+    if (time >= 0){
 
-    loadQuestions();        
+        loadQuestions();        
+    }
+    
 
     };
 
-//// Display time left on the nav button ////
+//// Load Game OVer Modal ////
+function gameOver(){
+    $('#game-over').modal();
+
+    // Reset the question index and Quiz in case Play Again is clicked
+    // ques = 0;
+    // time = 25;
+    console.log("");
+    console.log("");
+    console.log("");
+};
+
+
+
+//// Go To High Scores ////
+function goToHighScores(){
+
+    ////**** 1. Get user name 2. Get user High Score */
+
+    window.open("scores.html")
+
+};
+
+//// Display time on the nav button ////
 function appendTime() {
-    // Set the time left to 0 if the timer goes negative
 
     timerButton.textContent = "Time Left: " + time + "s"
     setTimerButtonColor()
@@ -156,23 +174,28 @@ function appendTime() {
 //// Set the Timer button color based on the time remaining ////
 function setTimerButtonColor(){
     // console.log("============================================");
-    // console.log("1. timerLeft in setTimerButton", timerLeft);
-
-    if (time < 10 && time > 0){
+    // if (time > 10 && timerButton.classList.contains("btn-danger")){
+    //     timerButton.classList.replace("btn-danger", "btn-succes")
+    // }else 
+    if (time <= 10 && time > 0){
         timerButton.classList.replace("btn-success","btn-warning");
     } else if (time == 0){
-        // console.log("2. timerLeft in setTimerButton else if", timerLeft);
         // console.log("============================================");
         timerButton.classList.replace("btn-warning","btn-danger");
     }
+
 };
 
 //// Start counting down ////
 function startTimer() {
+    console.log("time at the beginning of Start Timer", time);
+    timerButton.classList.replace("btn-danger", "btn-succes")
+
     clock = setInterval(function() {
         // Stop condition for the timer 
         // (must be within the setInterval)
         if (time <= 0) {
+            ques = 0;
           stopTimer();
           return;
         }    
@@ -183,15 +206,16 @@ function startTimer() {
 };
 
 function stopTimer() {
-//    console.log( "    In stopTimer:  ", time);
+   console.log( "In stopTimer. The value of ques:  ", ques);
     appendTime(); // Time is 0 at this point. Display it on the button.
   
     clearInterval(clock); //Stop the Clock
 
     // Display time is up
     console.log("Time's Up!!");
-    
-    //Direct user to the High Scores page
+    gameOver();
+    ques = 0;
+    time = 25;
   };
 
 //// Navigate to w3schools.com ////
@@ -203,6 +227,10 @@ function goToW3(){
 
 
 
+console.log("playAgainButton", playAgainButton);
+console.log("playAgainButton", playAgainButton);
+console.log("playerName", playerName);
+
 timerButton.addEventListener("click", function(){startTimer(),  loadQuestions()});
-
-
+playAgainButton.addEventListener("click",loadQuiz);
+viewSubmitButton.addEventListener("click", function(){goToHighScores()});

@@ -18,8 +18,8 @@
           >High Scores</span></a>
       <ul class="navbar-nav ml-auto">
         <li>
-          <button class="btn btn-success my-2 my-sm-0 timer" type="submit">
-            Start Timer: 100s
+          <button class="btn my-2 my-sm-0 timer" type="submit">
+            Start Timer: s
           </button>
         </li>
       </ul>
@@ -38,26 +38,13 @@
       </div>
     </div>
 
-    <div>
-      <!-- Button trigger modal -->
-      <button
-        type="button"
-        class="btn btn-primary"
-        data-toggle="modal"
-        data-target="#exampleModalCenter"
-      >
-        Launch demo modal
-      </button>
-      <!------------------------->
-      
+    <div>      
       <!-- Modal -->
       <div
       class="modal fade"
-      id="exampleModalCenter"
+      id="game-over"
       tabindex="-1"
       role="dialog"
-      <!-- aria-labelledby="exampleModalCenterTitle"
-       -->aria-hidden="true"
       >
       <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
@@ -82,13 +69,13 @@
           </div>
           <div class="modal-footer my-auto">
             <div class="row">
-              <div class="col-sm my-auto">
-                <button type="button" class="btn btn-primary btn-lg btn-block">
+              <div class="col-sm text-center my-1">
+                <button id = "play-again" type="button" class="btn btn-primary btn-lg btn-block" data-dismiss="modal">
                       Play Again    
                 </button>
               </div>
-              <div class="col-sm my-auto">
-                <button type="button" class="btn btn-secondary btn-lg btn-block" data-dismiss="modal">
+              <div class="col-sm text-center my-1">
+                <button id="submit-view" type="button" class="btn btn-secondary btn-lg btn-block" data-dismiss="modal">
                   Submit and View High Scores
                   </button>
               </div>
