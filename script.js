@@ -7,7 +7,7 @@ var playAgainButton = document.getElementById('play-again');
 var viewSubmitButton = document.getElementById('submit-view');
 var playerName = document.querySelector('.player-name');
 var gameOverMessage = document.querySelector(".game-over");
-var gameOverNotify = document.querySelector(".notify")
+var gameOverNotify = document.querySelector("#notify")
 var score = 0;
 var time = 25;  // Quiz Time
 var past = 0;   // Counter for the time that has elapsed
@@ -93,7 +93,7 @@ function createButton(i, j){
     var buttonNum = j+1
     var buttonName = document.createElement("button");
     buttonName.id = "btn"+buttonNum;
-    buttonName.setAttribute("class", "answer btn-dark mx-1 my-1");
+    buttonName.setAttribute("class", "answer btn-info mx-1 my-1");
     buttonName.textContent = questions[i].choices[j];
     buttonArea.appendChild(buttonName);
 };
@@ -124,60 +124,46 @@ function checkAnswer(){
     ques++ // increase the global questions
     
     if (ques>=questions.length){
+        time = 0;
+        ques = 0; // Reset the index of the question
         stopTimer();
         gameOver();
         return;
     }
     if (time >= 0){
-
         loadQuestions();        
     }
-
-    
     };
 
 //// Load Game OVer Modal ////
 function gameOver(){
     gameOverMessage.textContent ="Thanks for Playing. Your score is: " + score;
     $('#game-over').modal();
-
 };
 
-
-function displayMessage(type, message) {
-    gameOverNotify.textContent = message;
-    gameOverNotify.setAttribute("class", type);
-  }
 
 //// Go To High Scores //// *** This function needs work. I couldn't store multiple 
 //// players in locatStorage
 function goToHighScores(){
     // Get what's in local storage 
-    var existingPlayer = [JSON.parse(localStorage.getItem('player'))];
-    // console.log("existingPlayer", existingPlayer);
+    var existingPlayer = JSON.parse(localStorage.getItem('player')) || [] ;
 
     // Get the current player name and score
     var player = {
         name: playerName.value,
         userScore: score 
     };
-    // console.log("player", player);
-
+        
     // Add current player name and score to existing player
     existingPlayer.push(player);
-
+    
     // Add the updated existing player info back to localStorage
     localStorage.setItem('player',JSON.stringify(existingPlayer));
-
-    if (player.playerName === ""){
-        displayMessage("error", "Name cannot be blank")
-    }
-
-    localStorage.setItem("player",JSON.stringify(player));
-
-
+    
     window.open("scores.html")
 
+    location.reload();
+    
 };
 
 //// Display time on the nav button ////
@@ -194,7 +180,6 @@ function setTimerButtonColor(){
     } else if (time == 0){
         timerButton.classList.replace("btn-warning","btn-danger");
     }
-
 };
 
 //// Start counting down ////
@@ -212,7 +197,6 @@ function startTimer() {
         appendTime();
         time--
       }, 1000)
-      
 };
 
 function stopTimer() {
@@ -220,7 +204,7 @@ function stopTimer() {
   
     clearInterval(clock); //Stop the Clock
 
-    // Display time is up
+    // Time is up
     gameOver();
     ques = 0;
     time = 25;
