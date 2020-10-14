@@ -146,14 +146,14 @@ function gameOver(){
 //// players in locatStorage
 function goToHighScores(){
     // Get what's in local storage 
-    var existingPlayer = JSON.parse(localStorage.getItem('player')) || [] ;
+    var existingPlayer= [];
+    existingPlayer = JSON.parse(localStorage.getItem('player')) || [] ;
 
     // Get the current player name and score
     var player = {
         name: playerName.value,
         userScore: score 
     };
-        
     // Add current player name and score to existing player
     existingPlayer.push(player);
     
